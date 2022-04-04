@@ -1,7 +1,7 @@
 package id.holigo.services.holigoholiclubservice.web.model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,8 +22,8 @@ public class HoliclubDto implements Serializable {
 
     private WelcomeDto welcome;
 
-    private Collection<UserGroupDto> userGroups;
+    private List<UserGroupDto> userGroups;
 
-    private UserClub userClub;
+    private UserClubDto userClub;
 
 }

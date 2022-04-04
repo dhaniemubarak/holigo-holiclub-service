@@ -1,40 +1,39 @@
 package id.holigo.services.holigoholiclubservice.domain;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import id.holigo.services.common.model.UserGroupEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
-public class Holiclub {
-
+public class UserClub {
     @Id
-    private Byte id;
+    private Long userId;
 
-    private String backgroundUrl;
+    @Convert(converter = UserGroupEnumConverter.class)
+    private UserGroupEnum userGroup;
 
-    private String imageUrl;
+    private String name;
 
-    private String indexCaption;
+    private Integer exp;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<UserGroup> userGroups;
+    private BigDecimal fareAmount;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -43,4 +42,6 @@ public class Holiclub {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
+    @Column(nullable = true)
+    private Timestamp openAt;
 }

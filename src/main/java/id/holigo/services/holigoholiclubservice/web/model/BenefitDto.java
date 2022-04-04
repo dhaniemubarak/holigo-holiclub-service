@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BenefitDto implements Serializable {
 
+    private Byte id;
+
     private String imageUrl;
 
     private String caption;

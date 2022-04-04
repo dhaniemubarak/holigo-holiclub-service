@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserClub implements Serializable {
+public class UserClubDto implements Serializable {
 
     private UserGroupEnum userGroup;
 

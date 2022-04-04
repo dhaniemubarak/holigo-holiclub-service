@@ -1,6 +1,7 @@
 package id.holigo.services.holigoholiclubservice.web.model;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import id.holigo.services.common.model.UserGroupEnum;
 import lombok.AllArgsConstructor;
@@ -28,5 +29,6 @@ public class UserGroupDto {
 
     private String caption;
 
-    private Collection<BenefitDto> benefit;
+    @Builder.Default
+    private List<BenefitDto> benefit = new ArrayList<>();
 }
