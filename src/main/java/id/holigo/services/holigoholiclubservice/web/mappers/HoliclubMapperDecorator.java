@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -156,7 +155,8 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
                     .title(messageSource.getMessage("welcome.1.title", null, LocaleContextHolder.getLocale()))
                     .subtitle(messageSource.getMessage("welcome.1.subtitle", null, LocaleContextHolder.getLocale()))
                     .build();
-        } else if (!Optional.ofNullable(userClub.getOpenAt()).isPresent()) {
+            // } else if (!Optional.ofNullable(userClub.getOpenAt()).isPresent()) {
+        } else if (userClub.getOpenAt() == null) {
             String title = null;
             String subtitle = messageSource.getMessage("welcome.2.subtitle", null, LocaleContextHolder.getLocale());
             switch (userClub.getUserGroup()) {
@@ -191,8 +191,9 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
                     .subtitle(subtitle)
                     .build();
 
+        } else {
+            welcomeDto = null;
         }
-
         return welcomeDto;
     }
 

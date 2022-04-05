@@ -1,11 +1,15 @@
 package id.holigo.services.holigoholiclubservice.web.controllers;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,5 +47,18 @@ public class HoliclubController {
             holiclubDto = holiclubMapper.holiclubToHoliclubDto(holiclubRepository.getById(id), userClub);
         }
         return new ResponseEntity<>(holiclubDto, HttpStatus.OK);
+    }
+
+    @PutMapping("api/v1/holiclub")
+    public ResponseEntity<HoliclubDto> updateHoliclub(@RequestHeader("user-id") Long userId,
+            @RequestBody HoliclubDto holiclubDto) {
+        Optional<UserClub> fetchUserCLub = userClubRepository.findById(userId);
+        if (fetchUserCLub.isPresent()) {
+            userClub = fetchUserCLub.get();
+            userClub.setOpenAt(Timestamp.valueOf(LocalDateTime.now()));
+            userClubRepository.save(userClub);
+        }
+        return new ResponseEntity<HoliclubDto>(HttpStatus.NO_CONTENT);
+
     }
 }
