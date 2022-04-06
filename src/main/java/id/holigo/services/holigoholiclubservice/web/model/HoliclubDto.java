@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class HoliclubDto implements Serializable {
-
+    
     private String backgroundUrl;
 
     private String imageUrl;

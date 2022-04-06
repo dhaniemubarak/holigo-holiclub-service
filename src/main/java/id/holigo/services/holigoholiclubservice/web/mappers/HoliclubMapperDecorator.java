@@ -10,14 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 
+import id.holigo.services.common.model.UserGroupEnum;
 import id.holigo.services.holigoholiclubservice.domain.Holiclub;
 import id.holigo.services.holigoholiclubservice.domain.UserClub;
 import id.holigo.services.holigoholiclubservice.web.model.HoliclubDto;
 import id.holigo.services.holigoholiclubservice.web.model.UserGroupDto;
 import id.holigo.services.holigoholiclubservice.web.model.WelcomeDto;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public abstract class HoliclubMapperDecorator implements HoliclubMapper {
 
     @Autowired
@@ -28,8 +27,6 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
     private UserClubMapper userClubMapper;
 
     private UserGroupMapper userGroupMapper;
-
-    WelcomeDto welcomeDto;
 
     @Autowired
     public void setHoliclubMapper(HoliclubMapper holiclubMapper) {
@@ -53,86 +50,48 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
             holiclubDto.setUserClub(userClubMapper.userClubToUserClubDto(userClub));
         }
 
-        // List<UserGroupDto> userGroups = new ArrayList<>();
-        // holiclub.getUserGroups().stream().forEach(userGroup -> {
-        // UserGroupDto userGroupDto =
-        // userGroupMapper.userGroupToUserGroupDto(userGroup);
-        // String caption = null;
-        // if (userClub.getUserGroup().getCode() == userGroup.getUserGroup().getCode())
-        // {
-        // Integer remaining = userGroup.getMaxExp() - userClub.getExp();
-        // LocalDateTime localDateTime = LocalDateTime.of(Calendar.YEAR, 12, 31, 23, 59,
-        // 59);
-        // Object[] args = new Object[] { remaining,
-        // localDateTime.format(DateTimeFormatter.ofPattern("yyyy-mm-dd")) };
-        // caption = messageSource.getMessage("user_group.eq", args,
-        // LocaleContextHolder.getLocale());
-        // } else if (userClub.getUserGroup().getCode() >
-        // userGroup.getUserGroup().getCode()) {
-        // caption = messageSource.getMessage("user_group.gt", null,
-        // LocaleContextHolder.getLocale());
-        // } else {
-        // Integer remaining = userGroup.getMaxExp() - userClub.getExp();
-        // caption = messageSource.getMessage("user_group.lt", new Object[] { remaining
-        // },
-        // LocaleContextHolder.getLocale());
-        // }
-        // userGroupDto.setCaption(caption);
-        // userGroups.add(userGroupDto);
-        // });
-
         List<UserGroupDto> userGroups = new ArrayList<>();
         holiclub.getUserGroups().stream().map(userGroupMapper::userGroupToUserGroupDto).forEach(userGroupDto -> {
-
-            log.info("userGroupDto -> {}", userGroupDto);
-
-            String caption = null;
-            if (userClub.getUserGroup().getCode() == userGroupDto.getUserGroup().getCode()) {
-                Integer remaining = userGroupDto.getMaxExp() - userClub.getExp();
-                LocalDateTime localDateTime = LocalDateTime.of(Calendar.getInstance().get(Calendar.YEAR), 12, 31, 23,
-                        59,
-                        59);
-                Object[] args = new Object[] { remaining,
-                        localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MMM-dd")) };
-                caption = messageSource.getMessage("user_group.eq", args,
-                        LocaleContextHolder.getLocale());
-            } else if (userClub.getUserGroup().getCode() > userGroupDto.getUserGroup().getCode()) {
-                caption = messageSource.getMessage("user_group.gt", null,
-                        LocaleContextHolder.getLocale());
+            String caption = messageSource.getMessage("user_group.lt", null, LocaleContextHolder.getLocale());
+            if (userClub != null) {
+                if (userClub.getUserGroup().getCode() == userGroupDto.getUserGroup().getCode()) {
+                    Integer remaining = userGroupDto.getMaxExp() - userClub.getExp();
+                    LocalDateTime localDateTime = LocalDateTime.of(Calendar.getInstance().get(Calendar.YEAR), 12, 31,
+                            23,
+                            59,
+                            59);
+                    Object[] args = new Object[] { remaining,
+                            localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MMM-dd")) };
+                    caption = messageSource.getMessage("user_group.eq", args,
+                            LocaleContextHolder.getLocale());
+                } else if (userClub.getUserGroup().getCode() > userGroupDto.getUserGroup().getCode()) {
+                    caption = messageSource.getMessage("user_group.gt", null,
+                            LocaleContextHolder.getLocale());
+                } else {
+                    Integer remaining = userGroupDto.getMinExp() - userClub.getExp();
+                    caption = messageSource.getMessage("user_group.lt", new Object[] { remaining
+                    },
+                            LocaleContextHolder.getLocale());
+                }
             } else {
-                Integer remaining = userGroupDto.getMinExp() - userClub.getExp();
-                caption = messageSource.getMessage("user_group.lt", new Object[] { remaining
-                },
+                if (userGroupDto.getUserGroup() == UserGroupEnum.MEMBER) {
+                    Integer remaining = userGroupDto.getMaxExp();
+                    LocalDateTime localDateTime = LocalDateTime.of(Calendar.getInstance().get(Calendar.YEAR), 12, 31,
+                            23,
+                            59,
+                            59);
+                    Object[] args = new Object[] { remaining,
+                            localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MMM-dd")) };
+                    caption = messageSource.getMessage("user_group.eq", args,
+                            LocaleContextHolder.getLocale());
+                }
+                Integer remaining = userGroupDto.getMinExp();
+                caption = messageSource.getMessage("user_group.lt", new Object[] { remaining },
                         LocaleContextHolder.getLocale());
             }
             userGroupDto.setCaption(caption);
             userGroups.add(userGroupDto);
         });
-
-        // holiclub.getUserGroups().forEach(userGroupDto -> {
-        // String caption = null;
-        // if (userClub.getUserGroup().getCode() ==
-        // userGroupDto.getUserGroup().getCode()) {
-        // Integer remaining = userGroupDto.getMaxExp() - userClub.getExp();
-        // LocalDateTime localDateTime = LocalDateTime.of(Calendar.YEAR, 12, 31, 23, 59,
-        // 59);
-        // Object[] args = new Object[] { remaining,
-        // localDateTime.format(DateTimeFormatter.ofPattern("yyyy-mm-dd")) };
-        // caption = messageSource.getMessage("user_group.eq", args,
-        // LocaleContextHolder.getLocale());
-        // } else if (userClub.getUserGroup().getCode() >
-        // userGroupDto.getUserGroup().getCode()) {
-        // caption = messageSource.getMessage("user_group.gt", null,
-        // LocaleContextHolder.getLocale());
-        // } else {
-        // Integer remaining = userGroupDto.getMaxExp() - userClub.getExp();
-        // caption = messageSource.getMessage("user_group.lt", new Object[] { remaining
-        // },
-        // LocaleContextHolder.getLocale());
-        // }
-
-        // });
-
         holiclubDto.setUserGroups(userGroups);
         holiclubDto.setWelcome(welcomeBuilder(userClub));
         holiclubDto.setCaption(
@@ -146,6 +105,7 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
     }
 
     private WelcomeDto welcomeBuilder(UserClub userClub) {
+        WelcomeDto welcomeDto = null;
         if (userClub == null) {
             welcomeDto = WelcomeDto.builder()
                     .backgroundUrl(
@@ -155,7 +115,6 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
                     .title(messageSource.getMessage("welcome.1.title", null, LocaleContextHolder.getLocale()))
                     .subtitle(messageSource.getMessage("welcome.1.subtitle", null, LocaleContextHolder.getLocale()))
                     .build();
-            // } else if (!Optional.ofNullable(userClub.getOpenAt()).isPresent()) {
         } else if (userClub.getOpenAt() == null) {
             String title = null;
             String subtitle = messageSource.getMessage("welcome.2.subtitle", null, LocaleContextHolder.getLocale());
@@ -191,8 +150,6 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
                     .subtitle(subtitle)
                     .build();
 
-        } else {
-            welcomeDto = null;
         }
         return welcomeDto;
     }

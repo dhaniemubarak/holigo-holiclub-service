@@ -31,14 +31,14 @@ public class HoliclubController {
     @Autowired
     private HoliclubMapper holiclubMapper;
 
-    HoliclubDto holiclubDto;
 
-    UserClub userClub = null;
 
     private Byte id = 1;
 
     @GetMapping("api/v1/holiclub")
     public ResponseEntity<HoliclubDto> getHoliclub(@RequestHeader("user-id") Long userId) {
+        HoliclubDto holiclubDto;
+        UserClub userClub = null;
         Optional<UserClub> fetchUserCLub = userClubRepository.findById(userId);
         if (fetchUserCLub.isPresent()) {
             userClub = fetchUserCLub.get();
@@ -52,6 +52,7 @@ public class HoliclubController {
     @PutMapping("api/v1/holiclub")
     public ResponseEntity<HoliclubDto> updateHoliclub(@RequestHeader("user-id") Long userId,
             @RequestBody HoliclubDto holiclubDto) {
+        UserClub userClub = null;
         Optional<UserClub> fetchUserCLub = userClubRepository.findById(userId);
         if (fetchUserCLub.isPresent()) {
             userClub = fetchUserCLub.get();
