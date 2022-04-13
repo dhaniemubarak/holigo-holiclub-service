@@ -1,40 +1,37 @@
 package id.holigo.services.holigoholiclubservice.domain;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Holiclub {
+public class RegisterBenefit {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Byte id;
 
-    private String backgroundUrl;
+    @ManyToOne
+    private RegisterHoliclub registerHoliclub;
 
     private String imageUrl;
 
     private String indexCaption;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "holiclub")
-    private List<UserGroup> userGroups;
 
     @CreationTimestamp
     @Column(updatable = false)

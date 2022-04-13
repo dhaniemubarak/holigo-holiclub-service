@@ -5,7 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -13,28 +14,29 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Holiclub {
+public class RegisterOfficialAccount {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Byte id;
 
-    private String backgroundUrl;
+    private String indexTitle;
+
+    private String indexSubtitle;
 
     private String imageUrl;
 
-    private String indexCaption;
+    private String buttonLabel;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "holiclub")
-    private List<UserGroup> userGroups;
+    @OneToMany(mappedBy = "officialAccount")
+    private List<OfficialUser> officialUsers;
 
     @CreationTimestamp
     @Column(updatable = false)

@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import id.holigo.services.holigoholiclubservice.domain.UserClub;
 import id.holigo.services.holigoholiclubservice.repositories.HoliclubRepository;
+import id.holigo.services.holigoholiclubservice.repositories.RegisterHoliclubRepository;
 import id.holigo.services.holigoholiclubservice.repositories.UserClubRepository;
 import id.holigo.services.holigoholiclubservice.web.mappers.HoliclubMapper;
+import id.holigo.services.holigoholiclubservice.web.mappers.RegisterHoliclubMapper;
 import id.holigo.services.holigoholiclubservice.web.model.HoliclubDto;
+import id.holigo.services.holigoholiclubservice.web.model.RegisterHoliclubDto;
 
 @RestController
 public class HoliclubController {
@@ -29,13 +32,17 @@ public class HoliclubController {
     private UserClubRepository userClubRepository;
 
     @Autowired
+    private RegisterHoliclubRepository registerHoliclubRepository;
+
+    @Autowired
     private HoliclubMapper holiclubMapper;
 
-
+    @Autowired
+    private RegisterHoliclubMapper registerHoliclubMapper;
 
     private Byte id = 1;
 
-    @GetMapping("api/v1/holiclub")
+    @GetMapping("/api/v1/holiclub")
     public ResponseEntity<HoliclubDto> getHoliclub(@RequestHeader("user-id") Long userId) {
         HoliclubDto holiclubDto;
         UserClub userClub = null;
@@ -49,7 +56,16 @@ public class HoliclubController {
         return new ResponseEntity<>(holiclubDto, HttpStatus.OK);
     }
 
-    @PutMapping("api/v1/holiclub")
+    // This is for holiclub page in register form
+    @GetMapping("/api/v1/holiclubRegister")
+    public ResponseEntity<RegisterHoliclubDto> getRegisterHoliclub(@RequestHeader("user-id") Long userId) {
+
+        return new ResponseEntity<>(
+                registerHoliclubMapper.registerHoliclubToRegisterHoliclubDto(registerHoliclubRepository.getById(id)),
+                HttpStatus.OK);
+    }
+
+    @PutMapping("/api/v1/holiclub")
     public ResponseEntity<HoliclubDto> updateHoliclub(@RequestHeader("user-id") Long userId,
             @RequestBody HoliclubDto holiclubDto) {
         UserClub userClub = null;
