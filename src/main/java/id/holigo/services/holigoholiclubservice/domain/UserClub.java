@@ -44,4 +44,6 @@ public class UserClub {
 
     @Column(nullable = true)
     private Timestamp openAt;
+
+    private Boolean hasCheck;
 }
