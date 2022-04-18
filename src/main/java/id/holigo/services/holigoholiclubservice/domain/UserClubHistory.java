@@ -37,7 +37,7 @@ public class UserClubHistory {
 
     private Long userId;
 
-    private UUID transactionId;
+    private String invoiceNumber;
 
     @Column(precision = 10, scale = 2, nullable = false)
     private BigDecimal fareAmount;

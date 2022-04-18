@@ -51,7 +51,7 @@ public class HoliclubServiceImpl implements HoliclubService {
             UserClub updatedUserClub = userClubRepository.save(userClub);
 
             UserClubHistory userClubHistory = UserClubHistory.builder().userId(incrementUserClubDto.getUserId())
-                    .transactionId(incrementUserClubDto.getTransactionId())
+                    .invoiceNumber(incrementUserClubDto.getInvoiceNumber())
                     .fareAmount(incrementUserClubDto.getFareAmount())
                     .exp(newExp)
                     .currentExp(currentExp)

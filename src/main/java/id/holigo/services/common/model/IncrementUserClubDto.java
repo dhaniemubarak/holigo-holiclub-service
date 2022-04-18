@@ -19,7 +19,7 @@ public class IncrementUserClubDto implements Serializable {
 
     static final long serialVersionUID = 8L;
 
-    private UUID transactionId;
+    private String invoiceNumber;
 
     private Long userId;
 
