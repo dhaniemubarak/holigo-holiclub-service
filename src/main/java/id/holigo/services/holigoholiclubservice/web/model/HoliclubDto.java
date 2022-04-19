@@ -3,6 +3,7 @@ package id.holigo.services.holigoholiclubservice.web.model;
 import java.io.Serializable;
 import java.util.List;
 
+import id.holigo.services.common.model.UserClubDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

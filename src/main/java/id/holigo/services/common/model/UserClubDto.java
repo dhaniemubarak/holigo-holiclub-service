@@ -1,4 +1,4 @@
-package id.holigo.services.holigoholiclubservice.web.model;
+package id.holigo.services.common.model;
 
 import java.io.Serializable;
 
@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class UserClubDto implements Serializable {
+
+    private Long userId;
 
     private UserGroupEnum userGroup;
 

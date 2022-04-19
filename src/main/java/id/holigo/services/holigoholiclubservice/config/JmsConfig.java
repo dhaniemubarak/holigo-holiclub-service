@@ -12,6 +12,8 @@ public class JmsConfig {
 
     public static final String UPDATE_USER_GROUP_IN_USER_QUEUE = "update-user-group-in-user";
 
+    public static final String CREATE_USER_GROUP = "create-user-group";
+
     @Bean
     public MessageConverter jacksonJmsMessageConverter() {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();

@@ -75,6 +75,15 @@ public class HoliclubServiceImpl implements HoliclubService {
         }
     }
 
+    @Override
+    public void createUserClub(UserClub userClub) {
+        userClub.setName("Netizen");
+        userClub.setExp(0);
+        userClub.setFareAmount(new BigDecimal(0.00));
+        userClub.setHasCheck(false);
+        userClubRepository.save(userClub);
+    }
+
     private Integer calculateExp(BigDecimal fareAmount) {
         Integer fare = fareAmount.intValue();
         Integer exp = fare / 10000;
