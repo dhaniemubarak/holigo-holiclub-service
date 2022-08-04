@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -54,14 +55,20 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
         holiclub.getUserGroups().stream().map(userGroupMapper::userGroupToUserGroupDto).forEach(userGroupDto -> {
             String caption = messageSource.getMessage("user_group.lt", null, LocaleContextHolder.getLocale());
             if (userClub != null) {
-                if (userClub.getUserGroup().getCode() == userGroupDto.getUserGroup().getCode()) {
-                    Integer remaining = userGroupDto.getMaxExp() - userClub.getExp();
+                if (Objects.equals(userClub.getUserGroup().getCode(), userGroupDto.getUserGroup().getCode())) {
+                    String next = "";
+                    switch (userClub.getUserGroup().getCode()) {
+                        case 200 -> next = "BossQiu";
+                        case 300 -> next = "Soeltan";
+                        case 400 -> next = "Crazy Rich";
+                    }
+                    int remaining = userGroupDto.getMaxExp() - userClub.getExp();
                     LocalDateTime localDateTime = LocalDateTime.of(Calendar.getInstance().get(Calendar.YEAR), 12, 31,
                             23,
                             59,
                             59);
-                    Object[] args = new Object[] { remaining,
-                            localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MMM-dd")) };
+                    Object[] args = new Object[]{remaining,
+                            localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MMM-dd")), next};
                     caption = messageSource.getMessage("user_group.eq", args,
                             LocaleContextHolder.getLocale());
                 } else if (userClub.getUserGroup().getCode() > userGroupDto.getUserGroup().getCode()) {
@@ -69,8 +76,8 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
                             LocaleContextHolder.getLocale());
                 } else {
                     Integer remaining = userGroupDto.getMinExp() - userClub.getExp();
-                    caption = messageSource.getMessage("user_group.lt", new Object[] { remaining
-                    },
+                    caption = messageSource.getMessage("user_group.lt", new Object[]{remaining
+                            },
                             LocaleContextHolder.getLocale());
                 }
             } else {
@@ -80,13 +87,13 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
                             23,
                             59,
                             59);
-                    Object[] args = new Object[] { remaining,
-                            localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MMM-dd")) };
+                    Object[] args = new Object[]{remaining,
+                            localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MMM-dd"))};
                     caption = messageSource.getMessage("user_group.eq", args,
                             LocaleContextHolder.getLocale());
                 }
                 Integer remaining = userGroupDto.getMinExp();
-                caption = messageSource.getMessage("user_group.lt", new Object[] { remaining },
+                caption = messageSource.getMessage("user_group.lt", new Object[]{remaining},
                         LocaleContextHolder.getLocale());
             }
             userGroupDto.setCaption(caption);
@@ -120,23 +127,23 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
             String subtitle = messageSource.getMessage("welcome.2.subtitle", null, LocaleContextHolder.getLocale());
             switch (userClub.getUserGroup()) {
                 case NETIZEN:
-                    title = messageSource.getMessage("welcome.2.title", new Object[] { "Netizen" },
+                    title = messageSource.getMessage("welcome.2.title", new Object[]{"Netizen"},
                             LocaleContextHolder.getLocale());
                     break;
                 case BOSSQIU:
-                    title = messageSource.getMessage("welcome.2.title", new Object[] { "Bossqiu" },
+                    title = messageSource.getMessage("welcome.2.title", new Object[]{"BossQiu"},
                             LocaleContextHolder.getLocale());
                     break;
                 case SOELTAN:
-                    title = messageSource.getMessage("welcome.2.title", new Object[] { "Soeltan" },
+                    title = messageSource.getMessage("welcome.2.title", new Object[]{"Soeltan"},
                             LocaleContextHolder.getLocale());
                     break;
                 case CRAZY_RICH:
-                    title = messageSource.getMessage("welcome.2.title", new Object[] { "Crazy Rich" },
+                    title = messageSource.getMessage("welcome.2.title", new Object[]{"Crazy Rich"},
                             LocaleContextHolder.getLocale());
                     break;
                 default:
-                    title = messageSource.getMessage("welcome.2.title", new Object[] { "Member" },
+                    title = messageSource.getMessage("welcome.2.title", new Object[]{"Member"},
                             LocaleContextHolder.getLocale());
 
                     break;
