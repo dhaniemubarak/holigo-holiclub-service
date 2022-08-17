@@ -37,10 +37,10 @@ public class HoliclubServiceImpl implements HoliclubService {
     @Override
     public void incrementUserClubExp(IncrementUserClubDto incrementUserClubDto) {
 
-        Optional<UserClub> fetchUserclub = userClubRepository.findById(incrementUserClubDto.getUserId());
-        if (fetchUserclub.isPresent()) {
+        Optional<UserClub> fetchUserClub = userClubRepository.findById(incrementUserClubDto.getUserId());
+        if (fetchUserClub.isPresent()) {
 
-            UserClub userClub = fetchUserclub.get();
+            UserClub userClub = fetchUserClub.get();
             Integer currentExp = userClub.getExp();
             Integer newExp = calculateExp(incrementUserClubDto.getFareAmount());
             Integer finalExp = currentExp + newExp;
@@ -79,14 +79,14 @@ public class HoliclubServiceImpl implements HoliclubService {
     public void createUserClub(UserClub userClub) {
         userClub.setName("Netizen");
         userClub.setExp(0);
-        userClub.setFareAmount(new BigDecimal(0.00));
+        userClub.setFareAmount(BigDecimal.ZERO);
         userClub.setHasCheck(false);
         userClubRepository.save(userClub);
     }
 
     private Integer calculateExp(BigDecimal fareAmount) {
-        Integer fare = fareAmount.intValue();
-        Integer exp = fare / 10000;
+        int fare = fareAmount.intValue();
+        int exp = fare / 1000;
         if (exp > 100) {
             exp = 100;
         }

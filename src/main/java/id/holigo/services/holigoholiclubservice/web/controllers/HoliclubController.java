@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,22 +24,42 @@ import id.holigo.services.holigoholiclubservice.web.model.RegisterHoliclubDto;
 @RestController
 public class HoliclubController {
 
-    @Autowired
     private HoliclubRepository holiclubRepository;
 
-    @Autowired
     private UserClubRepository userClubRepository;
 
-    @Autowired
     private RegisterHoliclubRepository registerHoliclubRepository;
 
-    @Autowired
     private HoliclubMapper holiclubMapper;
 
-    @Autowired
     private RegisterHoliclubMapper registerHoliclubMapper;
 
-    private Byte id = 1;
+    private final Byte id = 1;
+
+    @Autowired
+    public void setHoliclubMapper(HoliclubMapper holiclubMapper) {
+        this.holiclubMapper = holiclubMapper;
+    }
+
+    @Autowired
+    public void setHoliclubRepository(HoliclubRepository holiclubRepository) {
+        this.holiclubRepository = holiclubRepository;
+    }
+
+    @Autowired
+    public void setRegisterHoliclubMapper(RegisterHoliclubMapper registerHoliclubMapper) {
+        this.registerHoliclubMapper = registerHoliclubMapper;
+    }
+
+    @Autowired
+    public void setRegisterHoliclubRepository(RegisterHoliclubRepository registerHoliclubRepository) {
+        this.registerHoliclubRepository = registerHoliclubRepository;
+    }
+
+    @Autowired
+    public void setUserClubRepository(UserClubRepository userClubRepository) {
+        this.userClubRepository = userClubRepository;
+    }
 
     @GetMapping("/api/v1/holiclub")
     public ResponseEntity<HoliclubDto> getHoliclub(@RequestHeader("user-id") Long userId) {
@@ -58,7 +77,7 @@ public class HoliclubController {
 
     // This is for holiclub page in register form
     @GetMapping("/api/v1/holiclubRegister")
-    public ResponseEntity<RegisterHoliclubDto> getRegisterHoliclub(@RequestHeader("user-id") Long userId) {
+    public ResponseEntity<RegisterHoliclubDto> getRegisterHoliclub() {
 
         return new ResponseEntity<>(
                 registerHoliclubMapper.registerHoliclubToRegisterHoliclubDto(registerHoliclubRepository.getById(id)),
@@ -66,16 +85,15 @@ public class HoliclubController {
     }
 
     @PutMapping("/api/v1/holiclub")
-    public ResponseEntity<HoliclubDto> updateHoliclub(@RequestHeader("user-id") Long userId,
-            @RequestBody HoliclubDto holiclubDto) {
-        UserClub userClub = null;
+    public ResponseEntity<HoliclubDto> updateHoliclub(@RequestHeader("user-id") Long userId) {
+        UserClub userClub;
         Optional<UserClub> fetchUserCLub = userClubRepository.findById(userId);
         if (fetchUserCLub.isPresent()) {
             userClub = fetchUserCLub.get();
             userClub.setOpenAt(Timestamp.valueOf(LocalDateTime.now()));
             userClubRepository.save(userClub);
         }
-        return new ResponseEntity<HoliclubDto>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
 }

@@ -2,7 +2,6 @@ package id.holigo.services.holigoholiclubservice.listeners;
 
 import id.holigo.services.common.events.CreateHoliclubEvent;
 import id.holigo.services.holigoholiclubservice.web.mappers.UserClubMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +14,8 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class UserClubListener {
 
-    @Autowired
     private final HoliclubService holiclubService;
 
-    @Autowired
     private final UserClubMapper userClubMapper;
 
     @JmsListener(destination = JmsConfig.INCREMENT_USERCLUB_BY_USER_ID_QUEUE)
