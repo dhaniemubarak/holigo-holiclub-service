@@ -36,7 +36,7 @@ public class UserClubHistoryController {
     public ResponseEntity<UserClubHistoryDto> getUserClubHistory(@RequestParam("invoiceNumber") String invoiceNumber) {
         Optional<UserClubHistory> fetchUserClubHistory = userClubHistoryRepository.findByInvoiceNumber(invoiceNumber);
         return fetchUserClubHistory.map(userClubHistory -> new ResponseEntity<>(userClubHistoryMapper
-                .userClubHistoryToUserClubHistoryDto(userClubHistory), HttpStatus.OK))
+                        .userClubHistoryToUserClubHistoryDto(userClubHistory), HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
