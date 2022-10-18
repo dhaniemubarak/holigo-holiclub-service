@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import id.holigo.services.common.model.UserGroupEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,19 +59,29 @@ public class HoliclubServiceImpl implements HoliclubService {
                     .finalExp(finalExp)
                     .build();
             userClubHistoryRepository.save(userClubHistory);
+            UserGroupEnum currentGroup = updatedUserClub.getUserGroup();
+            UserGroupEnum newGroup = updatedUserClub.getUserGroup();
+            if (updatedUserClub.getExp() >= 0 && updatedUserClub.getExp() < 200) {
+                newGroup = UserGroupEnum.NETIZEN;
+                updatedUserClub.setName("Netizen");
+            }
+            if (updatedUserClub.getExp() >= 200 && updatedUserClub.getExp() < 2000) {
+                newGroup = UserGroupEnum.BOSSQIU;
+                updatedUserClub.setName("BossQiu");
+            }
+            if (updatedUserClub.getExp() >= 2000 && updatedUserClub.getExp() < 20000) {
+                newGroup = UserGroupEnum.SOELTAN;
+                updatedUserClub.setName("Soeltan");
+            }
+            if (updatedUserClub.getExp() >= 20000) {
+                newGroup = UserGroupEnum.CRAZY_RICH;
+                updatedUserClub.setName("Crazy Rich");
+            }
 
-            List<UserGroup> userGroups = userGroupRepository.findAll();
-
-            for (UserGroup userGroup : userGroups) {
-                if (updatedUserClub.getExp() > userGroup.getMinExp()
-                        && updatedUserClub.getUserGroup() != userGroup.getUserGroup()) {
-                    updatedUserClub.setUserGroup(userGroup.getUserGroup());
-                    userClubRepository.save(updatedUserClub);
-                    userService.updateUserGroup(UpdateUserGroupDto.builder().userGroup(userGroup.getUserGroup())
-                            .userId(updatedUserClub.getUserId()).build());
-                    break;
-                }
-
+            if (currentGroup != newGroup) {
+                userClubRepository.save(updatedUserClub);
+                userService.updateUserGroup(UpdateUserGroupDto.builder().userGroup(newGroup)
+                        .userId(updatedUserClub.getUserId()).build());
             }
         }
     }
