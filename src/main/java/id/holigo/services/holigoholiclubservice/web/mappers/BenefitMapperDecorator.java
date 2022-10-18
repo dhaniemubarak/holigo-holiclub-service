@@ -9,7 +9,6 @@ import id.holigo.services.holigoholiclubservice.web.model.BenefitDto;
 
 public abstract class BenefitMapperDecorator implements BenefitMapper {
 
-    @Autowired
     MessageSource messageSource;
 
     private BenefitMapper benefitMapper;
@@ -17,6 +16,11 @@ public abstract class BenefitMapperDecorator implements BenefitMapper {
     @Autowired
     public void setBenefitMapper(BenefitMapper benefitMapper) {
         this.benefitMapper = benefitMapper;
+    }
+
+    @Autowired
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
     }
 
     @Override

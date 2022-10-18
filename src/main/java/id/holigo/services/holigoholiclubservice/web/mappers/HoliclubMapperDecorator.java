@@ -75,7 +75,7 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
                     caption = messageSource.getMessage("user_group.gt", null,
                             LocaleContextHolder.getLocale());
                 } else {
-                    Integer remaining = userGroupDto.getMinExp() - userClub.getExp();
+                    int remaining = userGroupDto.getMaxExp() - userClub.getExp();
                     caption = messageSource.getMessage("user_group.lt", new Object[]{remaining
                             },
                             LocaleContextHolder.getLocale());
@@ -91,10 +91,12 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
                             localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MMM-dd"))};
                     caption = messageSource.getMessage("user_group.eq", args,
                             LocaleContextHolder.getLocale());
+                } else {
+                    Integer remaining = userGroupDto.getMinExp();
+                    caption = messageSource.getMessage("user_group.lt", new Object[]{remaining},
+                            LocaleContextHolder.getLocale());
                 }
-                Integer remaining = userGroupDto.getMinExp();
-                caption = messageSource.getMessage("user_group.lt", new Object[]{remaining},
-                        LocaleContextHolder.getLocale());
+
             }
             userGroupDto.setCaption(caption);
             userGroups.add(userGroupDto);
@@ -123,31 +125,20 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
                     .subtitle(messageSource.getMessage("welcome.1.subtitle", null, LocaleContextHolder.getLocale()))
                     .build();
         } else if (userClub.getOpenAt() == null) {
-            String title = null;
+            String title;
             String subtitle = messageSource.getMessage("welcome.2.subtitle", null, LocaleContextHolder.getLocale());
-            switch (userClub.getUserGroup()) {
-                case NETIZEN:
-                    title = messageSource.getMessage("welcome.2.title", new Object[]{"Netizen"},
-                            LocaleContextHolder.getLocale());
-                    break;
-                case BOSSQIU:
-                    title = messageSource.getMessage("welcome.2.title", new Object[]{"BossQiu"},
-                            LocaleContextHolder.getLocale());
-                    break;
-                case SOELTAN:
-                    title = messageSource.getMessage("welcome.2.title", new Object[]{"Soeltan"},
-                            LocaleContextHolder.getLocale());
-                    break;
-                case CRAZY_RICH:
-                    title = messageSource.getMessage("welcome.2.title", new Object[]{"Crazy Rich"},
-                            LocaleContextHolder.getLocale());
-                    break;
-                default:
-                    title = messageSource.getMessage("welcome.2.title", new Object[]{"Member"},
-                            LocaleContextHolder.getLocale());
-
-                    break;
-            }
+            title = switch (userClub.getUserGroup()) {
+                case NETIZEN -> messageSource.getMessage("welcome.2.title", new Object[]{"Netizen"},
+                        LocaleContextHolder.getLocale());
+                case BOSSQIU -> messageSource.getMessage("welcome.2.title", new Object[]{"BossQiu"},
+                        LocaleContextHolder.getLocale());
+                case SOELTAN -> messageSource.getMessage("welcome.2.title", new Object[]{"Soeltan"},
+                        LocaleContextHolder.getLocale());
+                case CRAZY_RICH -> messageSource.getMessage("welcome.2.title", new Object[]{"Crazy Rich"},
+                        LocaleContextHolder.getLocale());
+                default -> messageSource.getMessage("welcome.2.title", new Object[]{"Member"},
+                        LocaleContextHolder.getLocale());
+            };
             welcomeDto = WelcomeDto.builder()
                     .backgroundUrl(
                             "https://ik.imagekit.io/holigo/holiclub/background_without_tier__BCBjBFzW.png?ik-sdk-version=javascript-1.4.3")

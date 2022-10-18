@@ -15,10 +15,14 @@ import id.holigo.services.holigoholiclubservice.repositories.LanguageRepository;
 @Component("messageSource")
 public class DBMessageSource extends AbstractMessageSource {
 
-    @Autowired
     private LanguageRepository languageRepository;
 
     private static final String DEFAULT_LOCALE_CODE = "id";
+
+    @Autowired
+    public void setLanguageRepository(LanguageRepository languageRepository) {
+        this.languageRepository = languageRepository;
+    }
 
     @Override
     protected MessageFormat resolveCode(String messageKey, Locale locale) {
