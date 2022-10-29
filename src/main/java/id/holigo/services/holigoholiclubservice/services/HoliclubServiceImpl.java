@@ -79,6 +79,7 @@ public class HoliclubServiceImpl implements HoliclubService {
             }
 
             if (currentGroup != newGroup) {
+                updatedUserClub.setUserGroup(newGroup);
                 userClubRepository.save(updatedUserClub);
                 userService.updateUserGroup(UpdateUserGroupDto.builder().userGroup(newGroup)
                         .userId(updatedUserClub.getUserId()).build());
