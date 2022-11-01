@@ -64,13 +64,13 @@ public class HoliclubController {
     @GetMapping("/api/v1/holiclub")
     public ResponseEntity<HoliclubDto> getHoliclub(@RequestHeader("user-id") Long userId) {
         HoliclubDto holiclubDto;
-        UserClub userClub = null;
+        UserClub userClub;
         Optional<UserClub> fetchUserCLub = userClubRepository.findById(userId);
         if (fetchUserCLub.isPresent()) {
             userClub = fetchUserCLub.get();
             holiclubDto = holiclubMapper.holiclubToHoliclubDto(holiclubRepository.getById(id), userClub);
         } else {
-            holiclubDto = holiclubMapper.holiclubToHoliclubDto(holiclubRepository.getById(id), userClub);
+            holiclubDto = holiclubMapper.holiclubToHoliclubDto(holiclubRepository.getById(id), null);
         }
         return new ResponseEntity<>(holiclubDto, HttpStatus.OK);
     }

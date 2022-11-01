@@ -68,7 +68,7 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
                             59,
                             59);
                     Object[] args = new Object[]{remaining,
-                            localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MMM-dd")), next};
+                            localDateTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy")), next};
                     caption = messageSource.getMessage("user_group.eq", args,
                             LocaleContextHolder.getLocale());
                 } else if (userClub.getUserGroup().getCode() > userGroupDto.getUserGroup().getCode()) {
@@ -88,7 +88,7 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
                             59,
                             59);
                     Object[] args = new Object[]{remaining,
-                            localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MMM-dd"))};
+                            localDateTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy"))};
                     caption = messageSource.getMessage("user_group.eq", args,
                             LocaleContextHolder.getLocale());
                 } else {
