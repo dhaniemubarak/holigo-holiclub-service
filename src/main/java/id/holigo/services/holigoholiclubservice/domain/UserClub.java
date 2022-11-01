@@ -42,8 +42,9 @@ public class UserClub {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
-    @Column(nullable = true)
     private Timestamp openAt;
 
     private Boolean hasCheck;
+
+    private Boolean couponHasAdded;
 }
