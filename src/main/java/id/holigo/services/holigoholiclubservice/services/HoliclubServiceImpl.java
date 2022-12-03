@@ -86,6 +86,7 @@ public class HoliclubServiceImpl implements HoliclubService {
             if (updatedUserClub.getExp() >= 0 && updatedUserClub.getExp() < 200) {
                 newGroup = UserGroupEnum.NETIZEN;
                 updatedUserClub.setName("Netizen");
+                updatedUserClub.setUserGroup(newGroup);
                 coupon50Id = UUID.fromString("1f8003ad-26dc-4760-838c-6a1bf65514c8");
                 coupon100Id = UUID.fromString("3f9b54d6-6756-4888-82c5-2d1acd803f03");
                 coupon50Quantity = 20;
@@ -94,6 +95,7 @@ public class HoliclubServiceImpl implements HoliclubService {
             if (updatedUserClub.getExp() >= 200 && updatedUserClub.getExp() < 2000) {
                 newGroup = UserGroupEnum.BOSSQIU;
                 updatedUserClub.setName("BossQiu");
+                updatedUserClub.setUserGroup(newGroup);
                 coupon50Id = UUID.fromString("a20425f2-ab2d-4852-b469-db74fcd2dfe3");
                 coupon100Id = UUID.fromString("dda94986-2646-418f-9ae4-f3be24caa503");
                 coupon50Quantity = 40;
@@ -102,6 +104,7 @@ public class HoliclubServiceImpl implements HoliclubService {
             if (updatedUserClub.getExp() >= 2000 && updatedUserClub.getExp() < 20000) {
                 newGroup = UserGroupEnum.SOELTAN;
                 updatedUserClub.setName("Soeltan");
+                updatedUserClub.setUserGroup(newGroup);
                 coupon50Id = UUID.fromString("e42d6426-3d1a-4919-8c1b-f5412237f904");
                 coupon100Id = UUID.fromString("a3d37f38-b1c7-4490-bb14-32a14a00abf4");
                 coupon50Quantity = 60;
@@ -110,6 +113,7 @@ public class HoliclubServiceImpl implements HoliclubService {
             if (updatedUserClub.getExp() >= 20000) {
                 newGroup = UserGroupEnum.CRAZY_RICH;
                 updatedUserClub.setName("Crazy Rich");
+                updatedUserClub.setUserGroup(newGroup);
                 coupon50Id = UUID.fromString("3307a306-4d52-41ad-818b-b71917bc842a");
                 coupon100Id = UUID.fromString("cb5c5edb-4b43-4733-b041-b31057369a27");
                 coupon50Quantity = 60;
