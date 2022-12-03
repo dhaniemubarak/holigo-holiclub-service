@@ -53,7 +53,7 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
 
         List<UserGroupDto> userGroups = new ArrayList<>();
         holiclub.getUserGroups().stream().map(userGroupMapper::userGroupToUserGroupDto).forEach(userGroupDto -> {
-            String caption = messageSource.getMessage("user_group.lt", null, LocaleContextHolder.getLocale());
+            String caption;
             if (userClub != null) {
                 if (Objects.equals(userClub.getUserGroup().getCode(), userGroupDto.getUserGroup().getCode())) {
                     String next = "";
@@ -75,7 +75,7 @@ public abstract class HoliclubMapperDecorator implements HoliclubMapper {
                     caption = messageSource.getMessage("user_group.gt", null,
                             LocaleContextHolder.getLocale());
                 } else {
-                    int remaining = userGroupDto.getMaxExp() - userClub.getExp();
+                    int remaining = userGroupDto.getMinExp() - userClub.getExp();
                     caption = messageSource.getMessage("user_group.lt", new Object[]{remaining
                             },
                             LocaleContextHolder.getLocale());
